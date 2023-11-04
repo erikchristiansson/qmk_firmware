@@ -23,6 +23,9 @@ behave as if the layout was American. I.e. the key to the right of
 the P will yield a [ rather than an å.
 Å, ä and ö is typed by holding AltGr and pressing a, e and o
 respectively.
+
+Pressing AltGr+Shift+Paus switches the board to a standard layout,
+except for the Paus key that brings back the base layout.
 */
 
 #include QMK_KEYBOARD_H
@@ -171,42 +174,52 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 enum layers{
-    WIN_BASE,
-    WIN_SHIFT,
-    WIN_FN,
-    WIN_SHIFT_FN
+    BASE,
+    SHIFT,
+    ALTGR,
+    SHIFT_ALTGR,
+    STANDARD
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	[WIN_BASE] = LAYOUT(
+	[BASE] = LAYOUT(
 		KC_ESC,                         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         KC_PSCR,        KC_NO,          KC_MUTE,
 		SWE_BTIC,       KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_SLSH,        RSFT(KC_0),     KC_BSPC,        KC_INS,         KC_HOME,        KC_PGUP,
 		KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           RALT(KC_8),     RALT(KC_9),     KC_NUHS,        KC_DEL,         KC_END,         KC_PGDN,
-		KC_F13,         KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_H,           KC_J,           KC_K,           KC_L,           RSFT(KC_COMM),                  RALT(KC_MINS),  KC_ENT,                                         
-		LM(WIN_SHIFT, MOD_RSFT),KC_NUBS,KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_N,           KC_M,           KC_COMM,        KC_DOT,         RSFT(KC_7),     LM(WIN_SHIFT, MOD_RSFT),                        KC_UP,          
-		KC_LCTL,        KC_LWIN,        KC_LALT,                                                                        KC_SPC,                                         MO(WIN_FN),     KC_RWIN,        KC_APP,         KC_RCTL,        KC_LEFT,        KC_DOWN,        KC_RGHT),
+		KC_F13,         KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_H,           KC_J,           KC_K,           KC_L,           RALT(KC_MINS),  RSFT(KC_COMM),                  KC_ENT,                                         
+		LM(SHIFT, MOD_LSFT),KC_NUBS,    KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_N,           KC_M,           KC_COMM,        KC_DOT,         RSFT(KC_7),     LM(SHIFT, MOD_RSFT),                            KC_UP,          
+		KC_LCTL,        KC_LWIN,        KC_LALT,                                                                        KC_SPC,                                         MO(ALTGR),      KC_RWIN,        KC_APP,         KC_RCTL,        KC_LEFT,        KC_DOWN,        KC_RGHT),
 
-	[WIN_SHIFT] = LAYOUT(
+	[SHIFT] = LAYOUT(
 		KC_ESC,                         RSFT(KC_F1),    RSFT(KC_F2),    RSFT(KC_F3),    RSFT(KC_F4),    RSFT(KC_F5),    RSFT(KC_F6),    RSFT(KC_F7),    RSFT(KC_F8),    RSFT(KC_F9),    RSFT(KC_F10),   RSFT(KC_F11),   RSFT(KC_F12),   _______,        _______,        KC_MUTE,
 		SWE_TLDE,       RSFT(KC_1),     SWE_AT,         RSFT(KC_3),     SWE_DOLR,       RSFT(KC_5),     SWE_CRET,       RSFT(KC_6),     RSFT(KC_NUHS),  RSFT(KC_8),     RSFT(KC_9),     RSFT(KC_SLSH),  SWE_PLUS,       RSFT(KC_BSPC),  RSFT(KC_INS),   RSFT(KC_HOME),  RSFT(KC_PGUP),
 		RSFT(KC_TAB),   RSFT(KC_Q),     RSFT(KC_W),     RSFT(KC_E),     RSFT(KC_R),     RSFT(KC_T),     RSFT(KC_Y),     RSFT(KC_U),     RSFT(KC_I),     RSFT(KC_O),     RSFT(KC_P),     SWE_LGWB,       SWE_RGWB,       RSFT(KC_2),     RSFT(KC_DEL),   RSFT(KC_END),   RSFT(KC_PGDN),
-		RSFT(KC_F13),   RSFT(KC_A),     RSFT(KC_S),     RSFT(KC_D),     RSFT(KC_F),     RSFT(KC_G),     RSFT(KC_H),     RSFT(KC_J),     RSFT(KC_K),     RSFT(KC_L),     RSFT(KC_DOT),                   SWE_PIPE,       RSFT(KC_ENT),                                   
+		RSFT(KC_F13),   RSFT(KC_A),     RSFT(KC_S),     RSFT(KC_D),     RSFT(KC_F),     RSFT(KC_G),     RSFT(KC_H),     RSFT(KC_J),     RSFT(KC_K),     RSFT(KC_L),     SWE_PIPE,       RSFT(KC_DOT),                   RSFT(KC_ENT),                                   
 		KC_LSFT,        RSFT(KC_NUBS),  RSFT(KC_Z),     RSFT(KC_X),     RSFT(KC_C),     RSFT(KC_V),     RSFT(KC_B),     RSFT(KC_N),     RSFT(KC_M),     SWE_LT,         RSFT(KC_NUBS),  RSFT(KC_MINS),  KC_RSFT,                                        RSFT(KC_UP),    
-		RSFT(KC_LCTL),  RSFT(KC_LWIN),  RSFT(KC_LALT),                                                                  RSFT(KC_SPC),                     LM(WIN_SHIFT _FN, MOD_RSFT),  RSFT(KC_RWIN),  RSFT(KC_APP),   RSFT(KC_RCTL),  RSFT(KC_LEFT),  RSFT(KC_DOWN),  RSFT(KC_RGHT)),
+		RSFT(KC_LCTL),  RSFT(KC_LWIN),  RSFT(KC_LALT),                                                                  RSFT(KC_SPC),                        LM(SHIFT_ALTGR, MOD_RSFT), RSFT(KC_RWIN),  RSFT(KC_APP),   RSFT(KC_RCTL),  RSFT(KC_LEFT),  RSFT(KC_DOWN),  RSFT(KC_RGHT)),
 
-	[WIN_FN] = LAYOUT(                                                                                                                                                                                                                                                      
+	[ALTGR] = LAYOUT(                                                                                                                                                                                                                                                      
 		_______,                        KC_BRID,        KC_BRIU,        _______,        _______,        _______,        _______,        KC_MPRV,        KC_MPLY,        KC_MNXT,        KC_MUTE,        KC_VOLD,        KC_VOLU,        _______,        _______,        _______,
 		KC_GRV,         _______,        _______,        RALT(KC_3),     RSFT(KC_4),     RALT(KC_5),     _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
 		_______,        _______,        _______,        KC_QUOT,        _______,        _______,        _______,        _______,        _______,        KC_SCLN,        _______,        _______,        KC_RBRC,        SWE_FTIC,       _______,        _______,        _______,
-		_______,        KC_LBRC,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,                        _______,        _______,                                        
-		LM(WIN_SHIFT_FN, MOD_RSFT),SWE_PIPE,_______,    _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______, LM(WIN _SHIFT_FN, MOD_RSFT),                           _______,        
+		_______,        KC_LBRC,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,                        _______,                                        
+		LM(SHIFT_ALTGR, MOD_LSFT),SWE_PIPE,_______,     _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______, LM(SHIFT_ALTGR, MOD_RSFT),                             _______,        
 		_______,        _______,        _______,                                                                        _______,                                        _______,        _______,        _______,        _______,        _______,        _______,        _______),
 
-	[WIN_SHIFT_FN] = LAYOUT(                                                                                                                                                                                                                                                
-		_______,                        KC_BRID,        KC_BRIU,        _______,        _______,        _______,        _______,        KC_MPRV,        KC_MPLY,        KC_MNXT,        KC_MUTE,        KC_VOLD,        KC_VOLU,        _______,        _______,        _______,
+	[SHIFT_ALTGR] = LAYOUT(                                                                                                                                                                                                                                                
+		_______,                        KC_BRID,        KC_BRIU,        _______,        _______,        _______,        _______,        KC_MPRV,        KC_MPLY,        KC_MNXT,        KC_MUTE,        KC_VOLD,        KC_VOLU,        _______,        _______,        TG(STANDARD),
 		KC_GRV,         _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
 		_______,        _______,        _______,        KC_QUOT,        _______,        _______,        _______,        _______,        _______,        KC_SCLN,        _______,        _______,        KC_RBRC,        SWE_FTIC,       _______,        _______,        _______,
-		_______,        KC_LBRC,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,                        _______,        _______,                                        
+		_______,        KC_LBRC,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,                        _______,                                        
 		_______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,                                        _______,        
 		_______,        _______,        _______,                                                                        _______,                                        _______,        _______,        _______,        _______,        _______,        _______,        _______),
+
+	[STANDARD] = LAYOUT(
+		KC_ESC,           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,     KC_PSCR, KC_SCRL, TG(BASE),
+		KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,    KC_INS,  KC_HOME, KC_PGUP,
+		KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,    KC_DEL,  KC_END,  KC_PGDN,
+		KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,
+		KC_LSFT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,             KC_UP,
+		KC_LCTL, KC_LGUI, KC_LALT,                            KC_SPC,                             KC_RALT, KC_RGUI, KC_MENU, KC_RCTL,    KC_LEFT, KC_DOWN, KC_RGHT
+	),
 };
