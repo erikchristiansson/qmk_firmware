@@ -23,6 +23,7 @@ behave as if the layout was American. I.e. the key to the right of
 the P will yield a [ rather than an å.
 Å, ä and ö is typed by holding AltGr and pressing a, e and o
 respectively.
+Caps Lock is replaced by F13.
 
 When the Win/Mac switch is in the Mac location, the keyboard
 behaves like a very standard Windows keyboard.
