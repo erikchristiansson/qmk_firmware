@@ -25,8 +25,8 @@ the P will yield a [ rather than an å.
 respectively.
 Caps Lock is replaced by F13.
 
-Pressing AltGr+Shift+Paus switches the board to a standard layout,
-except for the Paus key that brings back the base layout.
+Pressing AltGr+Shift+Pause switches the board to a standard layout,
+except for the Pause key that brings back the base layout.
 */
 
 #include QMK_KEYBOARD_H
