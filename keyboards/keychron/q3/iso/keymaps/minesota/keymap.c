@@ -34,7 +34,6 @@ behaves like a very standard Windows keyboard.
 enum my_keycodes {
     SWE_CRET = SAFE_RANGE, /* ^ RSFT(KC_RBRC) followed by KC_SPC */
     SWE_TLDE,              /* ~ RALT(KC_RBRC) followed by KC_SPC */
-    SWE_TLDD,              /* ~ dead RALT(KC_RBRC) */
     SWE_BTIC,              /* ` RSFT(KC_EQL) followed by KC_SPC */
     SWE_FTIC,              /* ´ KC_EQL followed by KC_SPC */
     SWE_LGWB,              /* { KC_RALT(KC_7) */
@@ -69,16 +68,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 clear_mods();
                 register_code(KC_SPC);
                 unregister_code(KC_SPC);
-                set_mods(modState);
-            }
-            return false;
-        case SWE_TLDD:
-            if (record->event.pressed) {
-                uint8_t modState = get_mods();
-                clear_mods();
-                add_mods(MOD_BIT(KC_RALT));
-                register_code(KC_RBRC);
-                clear_mods();
                 set_mods(modState);
             }
             return false;
@@ -238,7 +227,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [WIN_SHIFT_FN] = LAYOUT_tkl_iso(
         _______,                        KC_BRID,        KC_BRIU,        _______,        _______,        RGB_VAD,        RGB_VAI,        KC_MPRV,        KC_MPLY,        KC_MNXT,        KC_MUTE,       KC_VOLD,       KC_VOLU,         _______,        _______,        RGB_TOG,
         _______,        KC_NO,          KC_NO,          _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,       _______,       _______,         _______,        _______,        _______,
-        _______,        _______,        _______,        KC_QUOT,        _______,        _______,        _______,        _______,        _______,        KC_SCLN,        _______,        KC_NO,         SWE_TLDD,                       _______,        _______,        _______,
+        _______,        _______,        _______,        KC_QUOT,        _______,        _______,        _______,        _______,        _______,        KC_SCLN,        _______,        KC_NO,         KC_NO,                          _______,        _______,        _______,
         _______,        KC_LBRC,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,       _______,       _______,
         _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,       _______,                                        _______,
         _______,        _______,        _______,                                                        _______,                                                        _______,        _______,       _______,       _______,         _______,        _______,        _______),
