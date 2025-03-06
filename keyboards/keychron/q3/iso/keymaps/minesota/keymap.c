@@ -48,51 +48,71 @@ enum my_keycodes {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case SWE_CRET:
+        {
+            static uint8_t modState = 0;
             if (record->event.pressed) {
-                uint8_t modState = get_mods();
+                modState = get_mods();
                 clear_mods();
                 add_mods(MOD_BIT(KC_RSFT));
                 register_code(KC_RBRC);
+            } else {
+                unregister_code(KC_RBRC);
                 clear_mods();
                 register_code(KC_SPC);
                 unregister_code(KC_SPC);
                 set_mods(modState);
             }
+        }
             return false;
         case SWE_TLDE:
+        {
+            static uint8_t modState = 0;
             if (record->event.pressed) {
-                uint8_t modState = get_mods();
+                modState = get_mods();
                 del_mods(MOD_MASK_SHIFT);
                 add_mods(MOD_BIT(KC_RALT));
                 register_code(KC_RBRC);
+            } else {
+                unregister_code(KC_RBRC);
                 clear_mods();
                 register_code(KC_SPC);
                 unregister_code(KC_SPC);
                 set_mods(modState);
             }
+        }
             return false;
         case SWE_BTIC:
+        {
+            static uint8_t modState = 0;
             if (record->event.pressed) {
-                uint8_t modState = get_mods();
+                modState = get_mods();
                 clear_mods();
                 add_mods(MOD_BIT(KC_RSFT));
                 register_code(KC_EQL);
+            } else {
+                unregister_code(KC_EQL);
                 clear_mods();
                 register_code(KC_SPC);
                 unregister_code(KC_SPC);
                 set_mods(modState);
             }
+        }
             return false;
         case SWE_FTIC:
+        {
+            static uint8_t modState = 0;
             if (record->event.pressed) {
-                uint8_t modState = get_mods();
+                modState = get_mods();
                 clear_mods();
                 register_code(KC_EQL);
+            } else {
+                unregister_code(KC_EQL);
                 clear_mods();
                 register_code(KC_SPC);
                 unregister_code(KC_SPC);
                 set_mods(modState);
             }
+        }
             return false;
         case SWE_LGWB:
             if (record->event.pressed) {
